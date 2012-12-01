@@ -1,0 +1,46 @@
+- repasser sur les publics -> private
+
+
+[
+	Authentification
+	RMI_Authentification
+
+	Gestion_Client
+	RMI_Gestion_Client
+	
+	Base_de_donnees
+
+	user_privileges
+	
+	user_session	
+	
+	user
+
+		RMIserver
+		RMI_Information
+		RMI_Implementation	
+	
+]
+
+
+utilisateur extends user
+RMI_ImplemChat extends RMI_Implementation
+Chat_BDD extends Base_de_donnees
+TextChatter extends user_session
+
+gereclient(all).... extends RMI_Gestion_Client
+
+
+-------------------------------------
+
+
+chat :
+
+authentification( nom, mdp, type? ) return session_id
+gestion_client [ liste chat, creer chat, entrer chat ] ( session_id, nom_chat ) return confirm
+
+si entrer ou creer chat : modif chatter -> chat_courant
+si creer chat : modif chatter-> privil opérateur, modif chatroom -> privil_list_op Util
+
+gestion_client_chat[ envoyer message, recevoir message ]
+
