@@ -10,26 +10,28 @@ import Chat_Server.Utilisateur;
  *
  * @author Kisuke
  */
-public class TextChatter implements Chatter {
+public class TextChatter extends User.User_Session implements Chatter {
     
     Utilisateur user;
     TextChatRoom chat_courant = null;
     String Alias_chat;
-    int Session_ID;
-    
+   
     public TextChatter(int id, Utilisateur util)
     {
-        Session_ID = id;
-        user = util;
+        super(id, util);
     }
     
     public void receiveAMessage(String msg, Chatter c)
     {
         
     }
-    public void getAlias(String alias)
+    public void setAlias(String alias)
     {
         Alias_chat = alias;
+    }
+    public Utilisateur getUtilisateur()
+    {
+        return user;
     }
     
   

@@ -4,6 +4,7 @@
  */
 package Authentification.Authentification_class;
 
+import Authentification.Authentification_interface.AuthentificationManager;
 import Chat_Server.Utilisateur;
 import java.io.*;
 import java.net.Socket;
@@ -16,24 +17,30 @@ import Chat_Server.Base_de_donnees;
  *
  * @author Kisuke
  */
-public class Authentification_RMI implements Authentification.Authentification_interface.AuthentificationManager, Serializable, runnable{
+public class Authentification_RMI implements AuthentificationManager, Serializable{
  public Socket s;
 	boolean identifie;
 	public Thread operation;
 	public Hashtable bdd;
         public Utilisateur user = null;
+        public String type_run;
+        public String pseudo;
+        public String mdp;
+        public String type;
 	
-	public Authentification_RMI()
+	public Authentification_RMI(String type_auth, String pseudonyme, String mdpass, String type_cpt)
 	{
 		bdd = Chat_Server.Base_de_donnees.bdd;
+                type_run = type_auth;
+                pseudo = pseudonyme;
+                type = type_cpt;
 	}
 	
 	//Possibilit� 1 : connexion
 	//Possibilit� 2 : inscription
-	public synchronized String run(String type_run, String pseudo, String mdp, String type)
+	public synchronized String Authentifier()
 	{
-		try
-		{
+	
 				if(type_run.equals("connexion"))
 				{
                                     boolean stop = false;
@@ -44,13 +51,13 @@ public class Authentification_RMI implements Authentification.Authentification_i
                                        
                                         for(int i = 0; i < search_user.size() && !stop;i++)
                                         {
-                                            Utilisateur x = search_user.get(i);
+                                            Chat_Server.Utilisateur x = (Chat_Server.Utilisateur) search_user.get(i);
                                             if(x.toString().equals(pseudo + "\n" + mdp))
                                             {
                                                 stop = true;
                                                 identifie = true;
                                                 user = x;
-                                                int Session_ID = Base_de_donnees.Create_Session(); //Se trouve dans base de donnees
+                                                int Session_ID = Base_de_donnees.Create_Session(user); //Se trouve dans base de donnees
                                                 return ("connecté" + "\n" + String.valueOf(Session_ID) + "\n" + x.typeUser());
                                             }
                                         }
@@ -60,6 +67,7 @@ public class Authentification_RMI implements Authentification.Authentification_i
                                         return null;
                                         
                                     }
+                                    
 					//Verification, si correct -> identifie = true sinon retour = "non"
 				}
 				else if(type_run.equals("inscription"))
@@ -73,22 +81,20 @@ public class Authentification_RMI implements Authentification.Authentification_i
                                         {
                                             Base_de_donnees.save();
                                             identifie = true;
-                                            int Session_ID = Base_de_donnees.Create_Session(); //Se trouve dans base de donnees
+                                            int Session_ID = Base_de_donnees.Create_Session(user); //Se trouve dans base de donnees
                                             
                                             return ("connecte" + "\n" + String.valueOf(Session_ID));
                                  
                                         }
 				}
-		}
-		catch (IOException e) {
-			
-			System.err.println("Erreur connexion 1");
-		}
+		
+	
+                return null;
 	}
 	
 	public boolean inscription(String pseudo, String mdp, String type_compte)
 	{
-            ArrayList<String> liste_typecompte = (ArrayList<String>) bdd.get("type_compte"));
+            ArrayList<String> liste_typecompte = (ArrayList<String>) Chat_Server.Base_de_donnees.bdd.get("type_compte");
             boolean okay = false;
                     
             for(int i=0; i<liste_typecompte.size();i++)
@@ -99,10 +105,32 @@ public class Authentification_RMI implements Authentification.Authentification_i
             if(okay)
             {
 		ArrayList<User.user_class> temp = (ArrayList<User.user_class>)bdd.get("Utilisateurs");
-		user = new Utilisateur(pseudo, mdp, type_compte);
+		user = (Utilisateur) new User.user_class(pseudo, mdp, type_compte);
                 temp.add((Utilisateur)user);
                 return true;
             }	
                         else return false;
-	}   
+	}
+
+  
+
+    @Override
+    public void addUser(String login, String password) throws UserExitsException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void removeUser(String login) throws UserUnknownException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void authentify(String login, String password) throws UserExitsException, WrongPasswordException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void save(String path) throws IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

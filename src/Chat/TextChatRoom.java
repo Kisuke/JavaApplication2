@@ -11,10 +11,12 @@ import java.util.ArrayList;
 public class TextChatRoom implements Chatroom {
     
     private ArrayList<TextChatter> liste_chatteurs;
+    public String Name_ChatRoom;
     
-    public TextChatRoom()
+    public TextChatRoom(String nom)
     {
         liste_chatteurs = new ArrayList<TextChatter>();
+        Name_ChatRoom = nom;
     }
     
     public void post(String msg, Chatter c)

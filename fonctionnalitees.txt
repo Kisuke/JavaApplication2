@@ -1,3 +1,10 @@
+URGENT : 
+* authentification_rmi devrait pas être thread
+
+
+
+
+
 - repasser sur les publics -> private
 
 

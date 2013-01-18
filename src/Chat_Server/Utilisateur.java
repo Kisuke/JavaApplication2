@@ -11,9 +11,16 @@ import User.user_class; //Importation de la partie user de notre bibliothèque
  */
 public class Utilisateur extends user_class{
     String Alias_reserve; //L'alias que personne d'autre ne peut prendre
-
+    
+    public Utilisateur(String pseudo, String mdp, String type)
+    {
+        super(pseudo, mdp, type);
+        
+    }
+    
+    
     public String typeUser() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        return type;
     }
     
 }
