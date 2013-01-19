@@ -4,6 +4,7 @@
  */
 package Chat_Server;
 
+import Chat.TextChatRoom;
 import Chat.TextChatter;
 import User.User_Session;
 import User.user_class;
@@ -47,6 +48,20 @@ public class Base_de_donnees {
         }
          return null; //Pas de session enregistrée
     }
+
+    static public TextChatRoom Chat_Session(int Session_id)
+    {
+        for(int i=0; i<Session_list.size();i++)
+        {
+            if(Session_list.get(i).Session_ID == Session_id)
+            {
+                return Session_list.get(i).chat_courant;
+            }
+           
+        }
+         return null; //Pas de session enregistrée
+    }
+    
     
     static public void save()
     {

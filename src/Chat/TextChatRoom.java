@@ -3,6 +3,7 @@
  * and open the template in the editor.
  */
 package Chat;
+import Chat_Server.Utilisateur;
 import java.util.ArrayList;
 /**
  *
@@ -10,12 +11,12 @@ import java.util.ArrayList;
  */
 public class TextChatRoom implements Chatroom {
     
-    private ArrayList<TextChatter> liste_chatteurs;
+    public ArrayList<Utilisateur> liste_chatteurs;
     public String Name_ChatRoom;
     
     public TextChatRoom(String nom)
     {
-        liste_chatteurs = new ArrayList<TextChatter>();
+        liste_chatteurs = new ArrayList<Utilisateur>();
         Name_ChatRoom = nom;
     }
     
@@ -23,19 +24,18 @@ public class TextChatRoom implements Chatroom {
     {
         //Renvoit à tout les chatteurs le message
     }
-    public void quit(Chatter c)
+    public void quit(Utilisateur c)
     {
-        //Envoit à tous les chatteurs le départ
-        //Supprime c de la liste_chatteur
+        liste_chatteurs.remove(c);
     }
-    public void join(Chatter c)
+    public void join(Utilisateur c)
     {
-        //Envoit à tous les chatteurs l'arrivée
-        //Ajoute c à la liste
+        liste_chatteurs.add(c);
     }
     public String getTopic(Chatter c)
     {
         return topic;
     }
+    
     
 }

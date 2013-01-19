@@ -13,7 +13,7 @@ import Chat_Server.Utilisateur;
 public class TextChatter extends User.User_Session implements Chatter {
     
     Utilisateur user;
-    TextChatRoom chat_courant = null;
+    public TextChatRoom chat_courant = null;
     String Alias_chat;
    
     public TextChatter(int id, Utilisateur util)
